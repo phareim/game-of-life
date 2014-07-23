@@ -1,0 +1,53 @@
+*{
+    padding: 0;
+    margin: 0;
+}
+
+body{
+
+    text-align: center;
+    font-family: sans-serif;
+}
+
+h1{
+    margin: 1em 0 1em;
+}
+
+table{
+    margin:auto;
+    border-spacing: 0;
+}
+
+td{
+    border:0;
+}
+#autoPlay {
+    width: 2em;
+    height: 2em;
+    vertical-align: middle;
+}
+#grid input[type="checkbox"]{
+    -webkit-appearance: none;
+    -moz-appearance: none;
+    appearance: none;
+
+    border: 0;
+    display: block;
+    width: 4em;
+    height: 4em;
+
+    background-color: #eeeeee;
+
+    border-radius: 90px;
+}
+
+#grid input[type="checkbox"]:checked{
+    background-color: forestgreen;
+    box-shadow: 0 0 0 99px forestgreen inset;
+}
+
+button{
+    width: 15em;
+    height: 3em;
+}
+
