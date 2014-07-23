@@ -16,7 +16,7 @@ function $(selector,container){
     };
 
     _.prototype = {
-        next: function(){
+        play: function(){
             this.prevBoard = cloneArray(this.board);
 
             for(var y=0; y<this.height;y++){
@@ -80,11 +80,10 @@ function $(selector,container){
 })();
 
 (function(){
-    var _ = self.LifeView = function(table,size,autoplay){
+    var _ = self.LifeView = function(table,size){
         this.grid = table;
         this.size = size;
         this.started = false;
-        this.autoplay = autoplay;
 
         this.createGrid();
     };
@@ -118,29 +117,33 @@ function $(selector,container){
                 }
             });
 
+            this.grid.addEventListener('keyup',function(evt){
+
+            });
+
             this.grid.appendChild(fragment);
         },
         get boardArray(){
             return this.checkboxes.map(function(row){
-               return row.map(function(box){
-                   return (+box.checked);
-               });
+                return row.map(function(box){
+                    return (+box.checked);
+                });
             });
         },
         setUpGame : function(){
             this.game = new Life(this.boardArray);
         },
         clear:function(){
-          this.game.clear();
+            this.game.clear();
 
-          this.createGrid();
+            this.createGrid();
         },
-        next : function(){
+        play : function(){
             var me = this;
             if(!this.started || this.game){
                 this.setUpGame();
             }
-            this.game.next();
+            this.game.play();
 
 
 
@@ -152,36 +155,19 @@ function $(selector,container){
                 }
             }
 
-            if (this.autoplay){
-                setTimeout(function(){
-                    me.next();
-                },1000);
-            }
+            setTimeout(function(){
+                me.play();
+            },1000);
+
         }
     };
 
 })();
 
-
-var buttons = {
-    next : $('button.next'),
-    clear : $('button.clear'),
-    autoPlay : $('#autoPlay')
-};
-
-var lifeView = new LifeView(document.getElementById('grid'),12,buttons.autoPlay.checked);
+var lifeView = new LifeView(document.getElementById('grid'),12);
 
 
-$('button.next').addEventListener('click',function(event){
-    lifeView.next();
-});
+$('button.play').addEventListener('click',function(event){
+    lifeView.play();
 
-$('button.clear').addEventListener('click',function(event){
-    lifeView.clear();
-});
-
-$('#autoPlay').addEventListener('change',function(event){
-    buttons.next.textContent = this.checked? 'Start':'Next';
-
-    lifeView.autoplay = this.checked;
 });

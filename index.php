@@ -1,0 +1,1 @@
+<?php include 'game-of-life.html'; ?>
