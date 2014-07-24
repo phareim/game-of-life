@@ -4,6 +4,7 @@ function $(selector,container){
 
 }
 
+
 (function(){
 
     var _ = self.Life = function(seed) {
