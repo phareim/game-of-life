@@ -16,37 +16,46 @@ function $(selector,container){
     };
 
     _.prototype = {
-        play: function(){
+        newAliveValue: function (neighbors, alive) {
+
+            function underPopulation() {
+                return neighbors < 2 && alive;
+            }
+
+            function goldilocks() {
+                return (neighbors === 2 || neighbors === 3 ) && alive;
+            }
+
+            function overpopulation() {
+                return neighbors > 3 && alive;
+            }
+
+            function reproduction() {
+                return neighbors === 3 && !alive;
+            }
+
+            switch (true) {
+                case underPopulation():
+                    return 0;
+                case goldilocks():
+                    return 1;
+                case overpopulation():
+                    return 0;
+                case reproduction():
+                    return 1;
+                default: // continue being dead
+                    return 0;
+            }
+        }, step: function(){
             this.prevBoard = cloneArray(this.board);
 
             for(var y=0; y<this.height;y++){
                 for(var x=0; x<this.width;x++){
-                    var neighbors = this.aliveNeighbors(this.prevBoard,x,y);
-                    // console.log(y,x,": ",neighbors);
-
-                    var alive = !!this.board[y][x];
-
-                    switch (true) {
-                        case neighbors < 2 && alive:
-//                            console.log('under-population');
-                            this.board[y][x] = 0;
-                            break;
-                        case (neighbors === 2 || neighbors === 3 )&& alive:
-//                            console.log('goldilocks');
-                            this.board[y][x] = 1;
-                            break;
-                        case neighbors > 3 && alive:
-//                            console.log('overpopulation');
-                            this.board[y][x] = 0;
-                            break;
-                        case neighbors === 3 && !alive:
-//                            console.log('reproduction');
-                            this.board[y][x] = 1;
-                            break;
-                        default:
-//                            console.log('continue being dead');
-                            this.board[y][x] = 0;
-                    }
+                    this.board[y][x] =
+                        this.newAliveValue(
+                            this.aliveNeighbors(
+                                this.prevBoard,x,y),
+                            !!this.board[y][x]);
                 }
             }
         },
@@ -83,14 +92,15 @@ function $(selector,container){
     var _ = self.LifeView = function(table,size){
         this.grid = table;
         this.size = size;
-        this.started = false;
+        this.initiated = false;
+        this.running = false;
 
         this.createGrid();
     };
 
     _.prototype = {
         createGrid: function (){
-            var me = this;
+
             var fragment = document.createDocumentFragment();
             this.grid.innerHTML = '';
             this.checkboxes = [];
@@ -111,16 +121,6 @@ function $(selector,container){
                 fragment.appendChild(row);
             }
 
-            this.grid.addEventListener('change',function(evt){
-                if (evt.target.nodeName.toLowerCase() === 'input'){
-                    me.started = false;
-                }
-            });
-
-            this.grid.addEventListener('keyup',function(evt){
-
-            });
-
             this.grid.appendChild(fragment);
         },
         get boardArray(){
@@ -131,43 +131,57 @@ function $(selector,container){
             });
         },
         setUpGame : function(){
-            this.game = new Life(this.boardArray);
+            if(!this.initiated || this.game){
+                this.game = new Life(this.boardArray);
+            }
+            this.running = true;
+
         },
         clear:function(){
             this.game.clear();
-
             this.createGrid();
         },
-        play : function(){
-            var me = this;
-            if(!this.started || this.game){
-                this.setUpGame();
-            }
-            this.game.play();
-
-
-
+        checkBoxes: function () {
             var board = this.game.board;
 
-            for(var y=0;y<this.size;y++){
-                for(var x=0;x<this.size;x++){
+            for (var y = 0; y < this.size; y++) {
+                for (var x = 0; x < this.size; x++) {
                     this.checkboxes[y][x].checked = !!board[y][x];
                 }
             }
+        },
+        step : function(){
+            var me = this;
 
-            setTimeout(function(){
-                me.play();
-            },1000);
-
+            this.game.step();
+            this.checkBoxes();
+            if(this.running){
+                setTimeout(function(){
+                    me.step();
+                },1000);
+            }
+        },
+        stop: function(){
+            this.running = false;
         }
     };
 
 })();
 
-var lifeView = new LifeView(document.getElementById('grid'),12);
+var lifeView = new LifeView(document.getElementById('grid'),9);
 
 
+//noinspection JSUnusedLocalSymbols
 $('button.play').addEventListener('click',function(event){
-    lifeView.play();
-
+    lifeView.setUpGame();
+    lifeView.step();
+});
+//noinspection JSUnusedLocalSymbols
+$('button.stop').addEventListener('click',function(event){
+    lifeView.stop();
+});
+//noinspection JSUnusedLocalSymbols
+$('button.clear').addEventListener('click',function(event){
+    lifeView.stop();
+    lifeView.clear();
 });
