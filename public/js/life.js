@@ -17,7 +17,7 @@ function $(selector,container){
     };
 
     _.prototype = {
-        newAliveValue: function (neighbors, alive) {
+        setNewAliveValue: function (neighbors, alive) {
 
             function underPopulation() {
                 return neighbors < 2 && alive;
@@ -51,7 +51,7 @@ function $(selector,container){
                     var neighbors = this.aliveNeighbors(this.prevBoard, x, y);
                     var alive = !!this.board[y][x];
                     this.board[y][x] =
-                        this.newAliveValue(
+                        this.setNewAliveValue(
                             neighbors,
                             alive);
                 }
