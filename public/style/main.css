@@ -28,6 +28,26 @@ td{
     height: 2em;
     vertical-align: middle;
 }
+
+@-webkit-keyframes birth{
+    50%{
+        box-shadow: 0 0 0 99px green inset;
+    }
+}
+
+@keyframes birth{
+    50%{
+        box-shadow: 0 0 0 99px green inset;
+    }
+}
+
+
+@-webkit-keyframes death{
+    50%{
+        box-shadow: 0 0 0 99px black inset;
+    }
+}
+
 #grid input[type="checkbox"]{
     -webkit-appearance: none;
     -moz-appearance: none;
@@ -39,7 +59,7 @@ td{
     height: 4em;
     margin: 5px;
     background-color:#eeeeee;
-
+    transition: 0.1s;
 
     border-radius: 90px;
 }
@@ -50,6 +70,9 @@ td{
 
 #grid input[type="checkbox"]:checked {
     background-color: #0d3349;
+    
+    -webkit-animation: birth 0.1s;
+    animation: birth 0.1s;
 }
 
 .controls {
