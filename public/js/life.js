@@ -166,7 +166,7 @@ function $(selector,container){
 
 })();
 
-var lifeView = new LifeView(document.getElementById('grid'),9);
+var lifeView = new LifeView(document.getElementById('grid'),document.getElementById('boardsize').value);
 
 
 //noinspection JSUnusedLocalSymbols
