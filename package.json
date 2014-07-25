@@ -2,6 +2,7 @@
   "name": "phareim-game-of-life",
   "version": "0.0.1",
   "author": "@phareim",
+  "description":"My implementation of Conway's game of life",
   "main": "web.js",
   "repository": {
     "type": "git",
@@ -16,7 +17,8 @@
   "keywords": [
     "educational",
     "conway",
-    "pluralsight"
+    "pluralsight",
+    "game of life"
   ],
   "engines": {
     "node": "0.10.x"
