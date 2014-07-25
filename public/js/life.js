@@ -35,28 +35,25 @@ function $(selector,container){
                 return neighbors === 3 && !alive;
             }
 
-            switch (true) {
-                case underPopulation():
-                    return 0;
-                case goldilocks():
-                    return 1;
-                case overpopulation():
-                    return 0;
-                case reproduction():
-                    return 1;
-                default: // continue being dead
-                    return 0;
+            if (goldilocks() || reproduction()) {
+                return 1;
             }
+            if (underPopulation() || overpopulation()) {
+                return 0;
+            }
+            return 0; // continue being dead
+
         }, step: function(){
             this.prevBoard = cloneArray(this.board);
 
             for(var y=0; y<this.height;y++){
                 for(var x=0; x<this.width;x++){
+                    var neighbors = this.aliveNeighbors(this.prevBoard, x, y);
+                    var alive = !!this.board[y][x];
                     this.board[y][x] =
                         this.newAliveValue(
-                            this.aliveNeighbors(
-                                this.prevBoard,x,y),
-                            !!this.board[y][x]);
+                            neighbors,
+                            alive);
                 }
             }
         },
