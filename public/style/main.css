@@ -4,10 +4,21 @@
     padding: 0;
     margin: 0;
 }
-
+@media screen and (min-width: 1024px){
+    body{
+        min-width: 300px;
+        max-width: 800px;
+    }
+}
+@media screen and (max-width: 1024px){
+    body{
+        width: 100%;
+    }
+    h1{
+        display: none;
+    }
+}
 body{
-    min-width: 300px;
-    max-width: 800px;
     margin: auto;
     text-align: center;
     font-family: "Indie Flower",sans-serif;
@@ -61,7 +72,7 @@ td{
     width: 4em;
     height: 4em;
     margin: 5px;
-    background-color:#eeeeee;
+    background-color:#e2e2e2;
     transition: 0.1s;
 
     border-radius: 90px;
