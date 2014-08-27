@@ -1,3 +1,5 @@
+@import url(http://fonts.googleapis.com/css?family=Indie+Flower);
+
 *{
     padding: 0;
     margin: 0;
@@ -8,13 +10,12 @@ body{
     max-width: 800px;
     margin: auto;
     text-align: center;
-    font-family: sans-serif;
+    font-family: "Indie Flower",sans-serif;
 }
 
 h1{
     margin: 1em 0 1em;
     display: block;
-    
 }
 
 table{
@@ -25,6 +26,7 @@ table{
 td{
     border:0;
 }
+
 #autoPlay {
     width: 2em;
     height: 2em;
@@ -42,7 +44,6 @@ td{
         box-shadow: 0 0 0 99px #084947 inset;
     }
 }
-
 
 @-webkit-keyframes death{
     50%{
@@ -72,16 +73,35 @@ td{
 
 #grid input[type="checkbox"]:checked {
     background-color: #0d3349;
-    
     -webkit-animation: birth 0.3s;
     animation: birth 0.3s;
 }
 
 .controls {
-
     padding: 2em;
 }
+.controls a,h1 a{
+    margin: 0.5em;
+    padding: 0.5em;
+    text-decoration: none;
+    cursor: pointer;
+    width: 10em;
+    height: 3em;
+    background: #0d3349;
+    border-radius: 2px;
+    color: white;
+    font-size: 2em;
+    
+    box-shadow: 3px 2px 3px 0px #333;
+}
+.controls a:active{
+    box-shadow: 1px 1px 1px 0px #333;
+}
 
+.controls a:hover{
+    text-decoration: bold;
+    cursor: pointer;
+}
 button{
     width: 15em;
     height: 3em;

@@ -19,6 +19,9 @@ function $(selector,container){
     _.prototype = {
         setNewAliveValue: function (neighbors, alive) {
 
+            function continueBeingDead(){
+                return 0;
+            }
             function underPopulation() {
                 return neighbors < 2 && alive;
             }
@@ -38,24 +41,31 @@ function $(selector,container){
             if (goldilocks() || reproduction()) {
                 return 1;
             }
-            if (underPopulation() || overpopulation()) {
+            else if (underPopulation() || overpopulation()) {
                 return 0;
             }
-            return 0; // continue being dead
+            else {
+                return continueBeingDead();
+            }
+            
 
         }, step: function(){
             this.prevBoard = cloneArray(this.board);
-
+            var totalLiveNodes = 0;
             for(var y=0; y<this.height;y++){
                 for(var x=0; x<this.width;x++){
                     var neighbors = this.aliveNeighbors(this.prevBoard, x, y);
                     var alive = !!this.board[y][x];
+                    totalLiveNodes += alive;
                     this.board[y][x] =
                         this.setNewAliveValue(
                             neighbors,
                             alive);
                 }
             }
+            if (totalLiveNodes === 0) {
+                lifeView.stop();
+            };
         },
         aliveNeighbors: function(array,x,y){
             var prevRow = array[y-1]||[];
@@ -78,8 +88,6 @@ function $(selector,container){
         }
     };
 
-
-    // helper
     function cloneArray(array){
         return array.slice().map(function (row) {return row.slice();});
     }
@@ -169,17 +177,14 @@ function $(selector,container){
 var lifeView = new LifeView(document.getElementById('grid'),document.getElementById('boardsize').value);
 
 
-//noinspection JSUnusedLocalSymbols
-$('button.play').addEventListener('click',function(event){
+$('a.play').addEventListener('click',function(event){
     lifeView.setUpGame();
     lifeView.step();
 });
-//noinspection JSUnusedLocalSymbols
-$('button.stop').addEventListener('click',function(event){
+$('a.stop').addEventListener('click',function(event){
     lifeView.stop();
 });
-//noinspection JSUnusedLocalSymbols
-$('button.clear').addEventListener('click',function(event){
+$('a.clear').addEventListener('click',function(event){
     lifeView.stop();
     lifeView.clear();
 });
