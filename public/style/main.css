@@ -10,12 +10,14 @@
         max-width: 800px;
     }
 }
-@media screen and (max-width: 1024px){
+@media screen and (max-device-width: 1024px){
     body{
         width: 100%;
+        overflow-x: hidden;
+        position: relative;
     }
-    h1{
-        display: none;
+    html{
+        overflow-x: hidden;
     }
 }
 body{
